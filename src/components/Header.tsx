@@ -1,7 +1,8 @@
 import React from 'react';
-import LogoSvg from '../assets/img/pizza-logo.svg'
+const LogoSvg =  require('../assets/img/pizza-logo.svg') as string
 
 const Header = () => {
+    
   return (
     <header className="header">
       <div className="container">
