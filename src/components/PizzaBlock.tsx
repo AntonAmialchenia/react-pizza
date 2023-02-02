@@ -1,16 +1,8 @@
 import React, { useState } from 'react';
+import {Pizza} from '../App'
 
-export interface PizzaBlockProps {
-  imageUrl: string;
-  title: string;
-  types: number[];
-  sizes: number[];
-  price: number;
-  category: number;
-  rating?: number;
-}
 
-const PizzaBlock = ({ title, price, imageUrl, types, sizes, category }: PizzaBlockProps) => {
+const PizzaBlock = ({ title, price, imageUrl, types, sizes, category }: Pizza) => {
   const typeNames = ['тонкое', 'традиционное'];
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
