@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import {Pizza} from '../App'
-
+import { Pizza } from '../../models';
 
 const PizzaBlock = ({ title, price, imageUrl, types, sizes, category }: Pizza) => {
   const typeNames = ['тонкое', 'традиционное'];

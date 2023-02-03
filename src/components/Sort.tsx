@@ -1,14 +1,14 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 const Sort = () => {
-    const [openPopup, setOpenPopup] = useState(false)
-    const itemsPopup = ['популярности', 'цене', 'алфавиту']
-    const [activeIndex, setActiveIndex] = useState(0)
+  const [openPopup, setOpenPopup] = useState(false);
+  const itemsPopup = ['популярности', 'цене', 'алфавиту'];
+  const [activeIndex, setActiveIndex] = useState(0);
 
-    const onClickItemPopup = (i:number) => {
-        setActiveIndex(i)
-        setOpenPopup(false)
-    }
+  const onClickItemPopup = (i: number) => {
+    setActiveIndex(i);
+    setOpenPopup(false);
+  };
   return (
     <div className="sort">
       <div className="sort__label">
@@ -27,18 +27,20 @@ const Sort = () => {
         <b>Сортировка по:</b>
         <span onClick={() => setOpenPopup(!openPopup)}>{itemsPopup[activeIndex]}</span>
       </div>
-      {openPopup && <div className="sort__popup">
-        <ul>
-          {itemsPopup.map((item,i) => 
-          <li
-            key={i}
-            onClick={() => onClickItemPopup(i)}
-            className={activeIndex === i ? 'active' : ''}>
-            {itemsPopup[i]}
-          </li>)}
-          
-        </ul>
-      </div>}
+      {openPopup && (
+        <div className="sort__popup">
+          <ul>
+            {itemsPopup.map((item, i) => (
+              <li
+                key={i}
+                onClick={() => onClickItemPopup(i)}
+                className={activeIndex === i ? 'active' : ''}>
+                {itemsPopup[i]}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,8 +1,8 @@
 import React from 'react';
-const LogoSvg =  require('../assets/img/pizza-logo.svg') as string
+import { Link } from 'react-router-dom';
+const LogoSvg = require('../assets/img/pizza-logo.svg') as string;
 
 const Header = () => {
-    
   return (
     <header className="header">
       <div className="container">
@@ -14,7 +14,7 @@ const Header = () => {
           </div>
         </div>
         <div className="header__cart">
-          <a href="/cart.html" className="button button--cart">
+          <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
             <div className="button__delimiter"></div>
             <svg
@@ -46,7 +46,7 @@ const Header = () => {
               />
             </svg>
             <span>3</span>
-          </a>
+          </Link>
         </div>
       </div>
     </header>
