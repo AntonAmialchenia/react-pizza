@@ -9,7 +9,7 @@ body {
 }
 
 .wrapper {
-  width: calc(100vw - 100px);
+  width: calc(100vw - 60px);
   height: 100%;
   background-color: #fff;
   margin: 50px auto;
@@ -25,15 +25,27 @@ body {
   }
 
   &__items {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    display: grid;	  
+	  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 40px;
+    justify-items: center;
+    @media (max-width: 420px){
+      grid-template-columns: repeat(auto-fit, minmax(195px, 1fr));
+  }
+  }
+
+  &__items-cart {
+    display: block;
   }
 
   &__top {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    @media (max-width: 1300px){
+        flex-direction:column-reverse
+    }
+    
   }
 }
 

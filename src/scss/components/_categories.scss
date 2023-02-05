@@ -1,9 +1,22 @@
 @import '../variables.scss';
 
 .categories {
+  @media (max-width: 1000px) {
+    width: 500px;
+    overflow: scroll;
+  }
+
+  @media (max-width: 680px) {
+    width: 320px;    
+  }
+  @media (max-width: 455px) {
+    width: 170px;    
+  }
   ul {
     display: flex;
-
+    @media (max-width: 1000px) {
+      width: 785px;
+    }
     li {
       background-color: #f9f9f9;
       padding: 13px 30px;

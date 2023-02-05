@@ -12,6 +12,10 @@
   border: 1px solid transparent;
   @include noselect();
 
+  @media (max-width: 430px){
+    padding: 10px;
+  }
+
   &,
   span {
     color: #fff;
