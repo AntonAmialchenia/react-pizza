@@ -4,12 +4,8 @@ import { Link } from 'react-router-dom';
 import Search from './Search';
 import LogoSvg from '../assets/img/pizza-logo.svg';
 
-export interface search {
-  searchValue: string;
-  setSearchValue: (i: string) => void;
-}
 
-const Header = ({ searchValue, setSearchValue }: search) => {
+const Header = () => {
   return (
     <header className="header">
       <div className="container">
@@ -20,7 +16,7 @@ const Header = ({ searchValue, setSearchValue }: search) => {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </Link>
-        <Search searchValue={searchValue} setSearchValue={setSearchValue} />
+        <Search  />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>

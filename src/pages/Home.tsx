@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios, { AxiosError } from 'axios';
 
 import Categories from '../components/Categories';
@@ -7,18 +7,20 @@ import Sort from '../components/Sort';
 import Sceleton from '../components/PizzaBlock/Sceleton';
 import { Pizza } from '../models';
 import Pagination from '../components/Pagination';
+import { SearchContext } from '../App';
 
-interface HomeProps {
+interface HomeContext {
   searchValue: string;
 }
 
-const Home = ({ searchValue }: HomeProps) => {
+const Home = () => {
   const [items, setItems] = useState<Pizza[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [categoryId, setCategoryId] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [sortType, setSortType] = useState({ name: 'популярности', sortProperty: 'rating' });
   const [error, setError] = useState('');
+  const { searchValue } = useContext<HomeContext>(SearchContext);
 
   const category = categoryId > 0 ? `category=${categoryId}` : '';
   const sortBy = sortType.sortProperty.replace('-', '');
@@ -66,7 +68,7 @@ const Home = ({ searchValue }: HomeProps) => {
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? sceletons : pizzas}</div>
-      <Pagination onChangePage = {(number) => setCurrentPage(number)}/>
+      <Pagination onChangePage={(number) => setCurrentPage(number)} />
     </div>
   );
 };
