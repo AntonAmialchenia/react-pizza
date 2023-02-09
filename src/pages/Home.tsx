@@ -1,5 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, FC } from 'react';
 import axios, { AxiosError } from 'axios';
+
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
+import { RootState } from '../redux/store';
 
 import Categories from '../components/Categories';
 import PizzaBlock from '../components/PizzaBlock';
@@ -13,18 +17,19 @@ interface HomeContext {
   searchValue: string;
 }
 
-const Home = () => {
+const Home: FC = () => {
+  const dispatch = useDispatch();
+  const { categoryId, sort } = useSelector((state: RootState) => state.filter);
+
   const [items, setItems] = useState<Pizza[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [categoryId, setCategoryId] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortType, setSortType] = useState({ name: 'популярности', sortProperty: 'rating' });
   const [error, setError] = useState('');
   const { searchValue } = useContext<HomeContext>(SearchContext);
 
   const category = categoryId > 0 ? `category=${categoryId}` : '';
-  const sortBy = sortType.sortProperty.replace('-', '');
-  const order = sortType.sortProperty.includes('-') ? 'asc' : 'desc';
+  const sortBy = sort.sortProperty.replace('-', '');
+  const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
   const search = searchValue ? `&search=${searchValue}` : '';
 
   async function fetchPizzas() {
@@ -32,7 +37,7 @@ const Home = () => {
       setError('');
       setIsLoading(true);
       const response = await axios.get(
-        `https://63db90c6c45e08a043484e95.mockapi.io/pizzas?page=${currentPage}&limit=4${category}&sortBy=${sortBy}&order=${order}${search}`,
+        `https://63db90c6c45e08a043484e95.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
       );
       console.log();
 
@@ -48,7 +53,7 @@ const Home = () => {
   useEffect(() => {
     fetchPizzas();
     window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
 
   const sceletons = [...new Array(6)].map((item, index) => <Sceleton key={index} />);
   const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
@@ -63,8 +68,8 @@ const Home = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onClickCategory={(id) => setCategoryId(id)} />
-        <Sort value={sortType} onClickSort={(sortType) => setSortType(sortType)} />
+        <Categories value={categoryId} onClickCategory={(id) => dispatch(setCategoryId(id))} />
+        <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       <div className="content__items">{isLoading ? sceletons : pizzas}</div>

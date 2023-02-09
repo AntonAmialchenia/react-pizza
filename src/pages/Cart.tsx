@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
-const Cart = () => {
+const Cart: FC = () => {
   return (
     <div className="container container--cart">
       <div className="cart">
@@ -370,12 +370,12 @@ const Cart = () => {
         <div className="cart__bottom">
           <div className="cart__bottom-details">
             <span>
-              {' '}
-              Всего пицц: <b>3 шт.</b>{' '}
+              
+              Всего пицц: <b>3 шт.</b>
             </span>
             <span>
-              {' '}
-              Сумма заказа: <b>900 ₽</b>{' '}
+              
+              Сумма заказа: <b>900 ₽</b>
             </span>
           </div>
           <div className="cart__bottom-buttons">

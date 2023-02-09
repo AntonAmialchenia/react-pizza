@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, FC } from 'react';
 import { SearchContext } from '../../App';
 
 import style from './Search.module.scss';
@@ -8,7 +8,7 @@ interface search {
   setSearchValue: (i: string) => void;
 }
 
-const Search = () => {
+const Search: FC = () => {
   const { searchValue, setSearchValue }: search = useContext(SearchContext);
 
   return (

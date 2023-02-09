@@ -1,33 +1,26 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
-type sort = {
-  name: string;
-  sortProperty: string;
-};
+import { RootState } from '../redux/store';
+import { sort, setSortType } from '../redux/slices/filterSlice';
 
-interface SortProps {
-  value: {
-    name: string;
-    sortProperty: string;
-  };
-  onClickSort: (obj: sort) => void;
-}
+const itemsPopup = [
+  { name: 'популярности ', sortProperty: 'rating' },
+  { name: 'популярности ', sortProperty: '-rating' },
+  { name: 'цене ', sortProperty: 'price' },
+  { name: 'цене ', sortProperty: '-price' },
+  { name: 'алфавиту ', sortProperty: 'title' },
+  { name: 'алфавиту ', sortProperty: '-title' },
+];
 
-const Sort = ({ value, onClickSort }: SortProps) => {
+const Sort = () => {
+  const dispatch = useDispatch();
+  const sort = useSelector((state: RootState) => state.filter.sort);
+
   const [openPopup, setOpenPopup] = useState(false);
-  const itemsPopup = [
-    { name: 'популярности ', sortProperty: 'rating' },
-    { name: 'популярности ', sortProperty: '-rating' },
-    { name: 'цене ', sortProperty: 'price' },
-    { name: 'цене ', sortProperty: '-price' },
-    { name: 'алфавиту ', sortProperty: 'title' },
-    { name: 'алфавиту ', sortProperty: '-title' },
-  ];
-
-  
 
   const onClickItemPopup = (obj: sort) => {
-    onClickSort(obj);
+    dispatch(setSortType(obj));
     setOpenPopup(false);
   };
   return (
@@ -46,7 +39,7 @@ const Sort = ({ value, onClickSort }: SortProps) => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpenPopup(!openPopup)}>{value.name}</span>
+        <span onClick={() => setOpenPopup(!openPopup)}>{sort.name}</span>
       </div>
       {openPopup && (
         <div className="sort__popup">
@@ -55,8 +48,9 @@ const Sort = ({ value, onClickSort }: SortProps) => {
               <li
                 key={i}
                 onClick={() => onClickItemPopup(obj)}
-                className={value.sortProperty === obj.sortProperty ? 'active' : ''}>
-                {itemsPopup[i].name}{i%2 === 0 ? <span>&#129045;</span>  : <span>&#129047;</span>}
+                className={sort.sortProperty === obj.sortProperty ? 'active' : ''}>
+                {itemsPopup[i].name}
+                {i % 2 === 0 ? <span>&#129045;</span> : <span>&#129047;</span>}
               </li>
             ))}
           </ul>

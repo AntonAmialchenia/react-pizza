@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Link } from 'react-router-dom';
 
 import Search from './Search';
 import LogoSvg from '../assets/img/pizza-logo.svg';
 
-
-const Header = () => {
+const Header: FC = () => {
   return (
     <header className="header">
       <div className="container">
@@ -16,7 +15,7 @@ const Header = () => {
             <p>самая вкусная пицца во вселенной</p>
           </div>
         </Link>
-        <Search  />
+        <Search />
         <div className="header__cart">
           <Link to="/cart" className="button button--cart">
             <span>520 ₽</span>
