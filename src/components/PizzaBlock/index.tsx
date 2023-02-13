@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { Pizza } from '../../models';
 
-const PizzaBlock = ({ title, price, imageUrl, types, sizes, category }: Pizza) => {
+const PizzaBlock:FC<Pizza> = ({ title, price, imageUrl, types, sizes, category }) => {
   const typeNames = ['тонкое', 'традиционное'];
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);

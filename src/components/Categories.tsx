@@ -1,11 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 
 interface CategoriesProps {
   value: number;
   onClickCategory: (i: number) => void;
 }
 
-const Categories = ({ value, onClickCategory }: CategoriesProps) => {
+const Categories:FC<CategoriesProps> = ({ value, onClickCategory }) => {
   const categories = ['Все', 'Мясные', 'Вегетарианская', 'Гриль', 'Острые', 'Закрытые'];
 
   return (

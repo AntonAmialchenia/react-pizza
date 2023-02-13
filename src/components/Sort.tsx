@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../redux/store';
@@ -13,7 +13,7 @@ const itemsPopup = [
   { name: 'алфавиту ', sortProperty: '-title' },
 ];
 
-const Sort = () => {
+const Sort: FC = () => {
   const dispatch = useDispatch();
   const sort = useSelector((state: RootState) => state.filter.sort);
 

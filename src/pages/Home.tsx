@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import {  useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { usePizzas } from '../hooks/Pizzas';
 
@@ -15,8 +15,7 @@ import Pagination from '../components/Pagination';
 const Home: FC = () => {
   const dispatch = useDispatch();
 
-  const { items, error, isLoading, categoryId, setCurrentPage } = usePizzas();
-
+  const { items, error, isLoading, categoryId } = usePizzas();
 
   const sceletons = [...new Array(6)].map((item, index) => <Sceleton key={index} />);
   const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
@@ -39,7 +38,7 @@ const Home: FC = () => {
         {isLoading ? sceletons : pizzas}
         {error && <p>{error}</p>}
       </div>
-      <Pagination onChangePage={(number) => setCurrentPage(number)} />
+      <Pagination />
     </div>
   );
 };
