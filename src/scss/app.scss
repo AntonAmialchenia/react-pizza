@@ -22,6 +22,10 @@ body {
 
   &__title {
     margin: 35px 0;
+    @media (max-width: 455px){
+      margin: 25px 0;
+      font-size: 25px;
+    }
   }
 
   &__items {

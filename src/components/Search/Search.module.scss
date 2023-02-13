@@ -1,12 +1,16 @@
 .root {
     position: relative;
-    left: -120px;
+    // left: -120px;
+    @media (max-width: 910px){
+        margin-bottom: 15px;
+        width: 100%;
+      }
 }
 
 .input {
     border: 1px solid rgba(0,0,0,0.1);
     padding: 12px 20px 12px 45px;
-    width: 400px;
+    width: 100%;
     border-radius: 10px;
     font-size: 16px;
     transition: all 0.3s ease-in-out;
