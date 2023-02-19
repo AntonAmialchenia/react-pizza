@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
 import { sort, setSortType } from '../redux/slices/filterSlice';
 
-const itemsPopup = [
+export const itemsPopup = [
   { name: 'популярности ', sortProperty: 'rating' },
   { name: 'популярности ', sortProperty: '-rating' },
   { name: 'цене ', sortProperty: 'price' },
@@ -39,7 +39,7 @@ const Sort: FC = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpenPopup(!openPopup)}>{sort.name}</span>
+        <span onClick={() => setOpenPopup(!openPopup)}>{sort?.name}</span>
       </div>
       {openPopup && (
         <div className="sort__popup">
@@ -48,7 +48,7 @@ const Sort: FC = () => {
               <li
                 key={i}
                 onClick={() => onClickItemPopup(obj)}
-                className={sort.sortProperty === obj.sortProperty ? 'active' : ''}>
+                className={sort?.sortProperty === obj.sortProperty ? 'active' : ''}>
                 {itemsPopup[i].name}
                 {i % 2 === 0 ? <span>&#129045;</span> : <span>&#129047;</span>}
               </li>

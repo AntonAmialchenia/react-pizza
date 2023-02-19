@@ -1,25 +1,23 @@
 import axios, { AxiosError } from 'axios';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 import { RootState } from '../redux/store';
 
 import { Pizza } from '../models';
 
-export function usePizzas() {
+function usePizzas() {
   const { categoryId, sort, currentPage, searchValue } = useSelector(
     (state: RootState) => state.filter,
   );
-
-  // const { searchValue } = useContext<searchContext>(SearchContext);
 
   const [items, setItems] = useState<Pizza[]>([]);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const category = categoryId > 0 ? `category=${categoryId}` : '';
-  const sortBy = sort.sortProperty.replace('-', '');
-  const order = sort.sortProperty.includes('-') ? 'asc' : 'desc';
+  const sortBy = sort?.sortProperty.replace('-', '');
+  const order = sort?.sortProperty.includes('-') ? 'asc' : 'desc';
   const search = searchValue ? `&search=${searchValue}` : '';
 
   async function fetchPizzas() {
@@ -39,9 +37,9 @@ export function usePizzas() {
   }
 
   useEffect(() => {
-    fetchPizzas();
     window.scrollTo(0, 0);
-  }, [categoryId, sort.sortProperty, searchValue, currentPage]);
+    fetchPizzas();
+  }, [categoryId, sort?.sortProperty, searchValue, currentPage]);
 
   return { items, error, isLoading, categoryId };
 }

@@ -10,7 +10,13 @@ export interface FilterState {
   categoryId: number;
   currentPage: number;
   searchValue: string;
-  sort: sort;
+  sort?: sort;
+}
+
+interface SetFilters {
+  sort?: sort;
+  categoryId: number;
+  currentPage: number;
 }
 
 const initialState: FilterState = {
@@ -39,9 +45,14 @@ export const filterSlice = createSlice({
     setSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
     },
+    setFilters(state, action: PayloadAction<SetFilters>) {
+      state.sort = action.payload.sort;
+      state.currentPage = action.payload.currentPage;
+      state.categoryId = action.payload.categoryId;
+    },
   },
 });
 
-export const { setCategoryId, setSortType, setCurrentPage, setSearchValue } = filterSlice.actions;
+export const { setCategoryId, setSortType, setCurrentPage, setSearchValue, setFilters } = filterSlice.actions;
 
 export default filterSlice.reducer;
