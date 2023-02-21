@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react';
+import React, { useState, FC, useRef, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import { RootState } from '../redux/store';
@@ -16,6 +16,7 @@ export const itemsPopup = [
 const Sort: FC = () => {
   const dispatch = useDispatch();
   const sort = useSelector((state: RootState) => state.filter.sort);
+  const sortRef = useRef(null);
 
   const [openPopup, setOpenPopup] = useState(false);
 
@@ -23,8 +24,21 @@ const Sort: FC = () => {
     dispatch(setSortType(obj));
     setOpenPopup(false);
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event:MouseEvent) => {
+      if (!event.composedPath().includes(sortRef.current!)) {
+        setOpenPopup(false);                
+      }
+    }
+    document.body.addEventListener('click',handleClickOutside);
+    return () => document.body.removeEventListener('click',handleClickOutside)
+      
+    
+  }, []);
+
   return (
-    <div className="sort">
+    <div ref={sortRef} className="sort">
       <div className="sort__label">
         <svg
           className={openPopup ? 'active' : ''}
