@@ -1,5 +1,5 @@
 export interface Pizza {
-    id: number;
+    id: string;
     imageUrl: string;
     title: string;
     types: number[];
@@ -10,7 +10,7 @@ export interface Pizza {
   }
 
 export  interface cartItem {
-    id: number
+    id: string
     title: string
     price:number
     imageUrl: string

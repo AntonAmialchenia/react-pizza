@@ -33,7 +33,7 @@ export const cartSlice = createSlice({
         return obj.price * obj.count! + sum;
       }, 0);
     },
-    minusItem(state, action: PayloadAction<number>) {
+    minusItem(state, action: PayloadAction<string>) {
       const findItem = state.items.find((obj) => obj.id === action.payload);
 
       if (findItem && findItem.count! > 0) {
@@ -42,7 +42,7 @@ export const cartSlice = createSlice({
       }
     },
 
-    removeItem(state, action: PayloadAction<number>) {
+    removeItem(state, action: PayloadAction<string>) {
       const findItem = state.items.find((obj) => obj.id === action.payload);
       state.items = state.items.filter((obj) => obj.id !== action.payload);
       state.totalPrice = state.totalPrice - findItem?.price! * findItem?.count!;

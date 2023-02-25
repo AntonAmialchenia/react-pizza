@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
 import qs from 'qs';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../hooks';
 
@@ -76,7 +76,8 @@ const Home: FC = () => {
   }, [categoryId, sort?.sortProperty, searchValue, currentPage]);
 
   const sceletons = [...new Array(6)].map((item, index) => <Sceleton key={index} />);
-  const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
+  const pizzas = items.map((item) => <PizzaBlock key={item.id}  {...item}/>);
+  // <Link key={item.id} to={`/pizza/${item.id}`}></Link>
   // const pizzas = items.filter(item => {
   //   if (item.title.toLowerCase().includes(searchValue.toLowerCase())) {
   //     return true

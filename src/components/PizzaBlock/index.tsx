@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from '../../hooks'
 import { addItem } from '../../redux/slices/cartSlice'
 
 import { Pizza } from '../../models';
+import { Link } from 'react-router-dom';
 
 const PizzaBlock:FC<Pizza> = ({id, title, price, imageUrl, types, sizes }) => {
   const dispatch = useAppDispatch()
@@ -28,8 +29,10 @@ const PizzaBlock:FC<Pizza> = ({id, title, price, imageUrl, types, sizes }) => {
 
   return (
     <div className="pizza-block">
+      <Link to={`/pizza/${id}`}>
       <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
       <h4 className="pizza-block__title">{title}</h4>
+      </Link>
       <div className="pizza-block__selector">
         <ul>
           {types?.map((typeId) => (
