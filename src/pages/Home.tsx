@@ -1,13 +1,11 @@
-import React, { FC, useEffect, useState , useRef} from 'react';
-import axios, { AxiosError } from 'axios';
+import React, { FC, useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../hooks';
 
-import { RootState } from '../redux/store';
-import { setCategoryId, setFilters, sort } from '../redux/slices/filterSlice';
-import { Pizza } from '../models';
+import { setCategoryId, setFilters } from '../redux/slices/filterSlice';
+import { fetchPizzas } from '../redux/slices/pizzaSlice';
 
 import Categories from '../components/Categories';
 import PizzaBlock from '../components/PizzaBlock';
@@ -19,56 +17,28 @@ import { itemsPopup } from './../components/Sort';
 
 const Home: FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const isSearch = useRef(false)
-  const isMouted = useRef(false)
+  const dispatch = useAppDispatch();
+  const isSearch = useRef(false);
+  const isMouted = useRef(false);
 
-  // const { items, error, isLoading, categoryId } = usePizzas();
-
-  const { categoryId, sort, currentPage, searchValue } = useSelector(
-    (state: RootState) => state.filter,
+  const { categoryId, sort, currentPage, searchValue } = useAppSelector(
+    (state) => state.filter,
   );
+  const { items, loading, error } = useAppSelector((state) => state.pizza);
 
-  const [items, setItems] = useState<Pizza[]>([]);
-  const [error, setError] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-
-  
-
-  async function fetchPizzas() {
-
-    const category = categoryId > 0 ? `category=${categoryId}` : '';
-    const sortBy = sort?.sortProperty.replace('-', '');
-    const order = sort?.sortProperty.includes('-') ? 'asc' : 'desc';
-    const search = searchValue ? `&search=${searchValue}` : '';
-
-    try {
-      setError('');
-      setIsLoading(true);
-      const response = await axios.get(
-        `https://63db90c6c45e08a043484e95.mockapi.io/pizzas?page=${currentPage}&limit=4&${category}&sortBy=${sortBy}&order=${order}${search}`,
-      );
-      setItems(response.data);
-      setIsLoading(false);
-    } catch (e: unknown) {
-      const error = e as AxiosError;
-      setIsLoading(false);
-      setError(error.message);
-    }
-  }
-// Если изменили параметры и был первый рендер
+  // Если изменили параметры и был первый рендер
   useEffect(() => {
     if (isMouted.current) {
       const queryString = qs.stringify({
-      sortProperty: sort?.sortProperty,
-      categoryId,
-      currentPage,
-    });
+        sortProperty: sort?.sortProperty,
+        categoryId,
+        currentPage,
+      });
 
-    navigate(`?${queryString}`);
+      navigate(`?${queryString}`);
     }
-    isMouted.current = true
-  }, [categoryId, sort?.sortProperty, currentPage]);
+    isMouted.current = true;
+  }, [categoryId, sort?.sortProperty, currentPage, navigate]);
 
   // Если был первый рендерб то проверяем URL параметры и сохраняем в редаксе
 
@@ -85,21 +55,25 @@ const Home: FC = () => {
           categoryId: Number(params.categoryId),
         }),
       );
-      isSearch.current = true
+      isSearch.current = true;
     }
-  }, []);
+  }, [dispatch]);
 
   // Если был первый рендер, то запрашиваем пиццы
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    if (!isSearch.current) {
-      fetchPizzas();
-    }
-    isSearch.current = false
-  }, [categoryId, sort?.sortProperty, searchValue, currentPage]);
 
-  
+    const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const sortBy = sort?.sortProperty.replace('-', '');
+    const order = sort?.sortProperty.includes('-') ? 'asc' : 'desc';
+    const search = searchValue ? `&search=${searchValue}` : '';
+
+    if (!isSearch.current) {
+      dispatch(fetchPizzas({ category, sortBy, order, search, currentPage }));
+    }
+    isSearch.current = false;
+  }, [categoryId, sort?.sortProperty, searchValue, currentPage]);
 
   const sceletons = [...new Array(6)].map((item, index) => <Sceleton key={index} />);
   const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
@@ -118,10 +92,15 @@ const Home: FC = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      <div className="content__items">
-        {isLoading ? sceletons : pizzas}
-        {error && <p>{error}</p>}
-      </div>
+      {error ? (
+        <div className="content__error-info">
+          <h2>Произошла ошибка 😕</h2>
+          <p>К сожалению, не удалось получть пиццы. Попробуйте повторить попытку позже.</p>
+        </div>
+      ) : (
+        <div className="content__items">{loading ? sceletons : pizzas}</div>
+      )}
+
       <Pagination />
     </div>
   );

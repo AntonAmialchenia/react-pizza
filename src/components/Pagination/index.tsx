@@ -1,5 +1,5 @@
 import ReactPaginate from 'react-paginate';
-import {  useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks';
 
 import { setCurrentPage } from '../../redux/slices/filterSlice';
 import style from './Pagination.module.scss';
@@ -7,7 +7,7 @@ import style from './Pagination.module.scss';
 
 
 const Pagination = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <ReactPaginate
       className={style.root}

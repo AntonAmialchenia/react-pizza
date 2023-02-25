@@ -20,6 +20,25 @@ body {
 .content {
   padding: 40px 0;
 
+  &__error-info {
+    margin: 100px auto;
+    width: 520px;
+
+    h2 {
+      margin-bottom: 30px;
+      font-weight: 700;
+      font-size: 36px;
+    }
+
+    h2, p {
+      text-align: center;
+    }
+
+    p {
+      font-size: 20px;
+    }
+  }
+
   &__title {
     margin: 35px 0;
     @media (max-width: 455px){
@@ -123,17 +142,29 @@ body {
   }
 
   &__item {
-    display: flex;
+    
+    
     width: 100%;
     border-top: 1px solid $gray-line;
     padding-top: 30px;
     margin-top: 30px;
 
+    @media (min-width:768px){
+        display: flex;
+        justify-content: space-between;
+    }
+  }
+
+  &__left {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+
     &-img {
       display: flex;
       align-items: center;
       margin-right: 15px;
-      width: 10%;
+      
 
       img {
         width: 80px;
@@ -145,7 +176,7 @@ body {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      width: 40%;
+      
 
       h3 {
         font-weight: bold;
@@ -159,12 +190,17 @@ body {
         color: #8d8d8d;
       }
     }
+  }
+  &__right {
+    display: flex; 
+    justify-content: space-between;   
+    gap: 50px;
 
     &-count {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      width: 13%;
+      gap: 10px;
+      
 
       &-minus {
         svg {
@@ -183,7 +219,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 33%;
+      
 
       b {
         font-weight: bold;
@@ -196,7 +232,7 @@ body {
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      width: 4%;
+      
 
       .button {
         border-color: darken($color: $gray-line, $amount: 10);

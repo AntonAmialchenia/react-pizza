@@ -6,19 +6,16 @@ import React, {
   FC,
   ChangeEvent,
 } from 'react';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import debounce from 'lodash.debounce';
 
-import { useSelector } from 'react-redux';
-
-import { RootState } from '../../redux/store';
 import { setSearchValue } from '../../redux/slices/filterSlice';
 
 import style from './Search.module.scss';
 
 const Search: FC = () => {
-  const dispatch = useDispatch();
-  const searchValue = useSelector((state: RootState) => state.filter.searchValue);
+  const dispatch = useAppDispatch();
+  const searchValue = useAppSelector((state) => state.filter.searchValue);
   const [value, setValue] = useState('');
 
   const inputRef = useRef<HTMLInputElement>(null);
@@ -33,7 +30,7 @@ const Search: FC = () => {
     debounce((str) => {
       dispatch(setSearchValue(str));
     }, 500),
-    [],
+    []
   );
 
   const onChangeInput = (event: ChangeEvent<HTMLInputElement>) => {

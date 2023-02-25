@@ -1,14 +1,13 @@
 import React, { useState, FC } from 'react';
-import {useDispatch, useSelector} from 'react-redux'
+import {useAppDispatch, useAppSelector} from '../../hooks'
 
-import { RootState } from '../../redux/store';
 import { addItem } from '../../redux/slices/cartSlice'
 
 import { Pizza } from '../../models';
 
 const PizzaBlock:FC<Pizza> = ({id, title, price, imageUrl, types, sizes }) => {
-  const dispatch = useDispatch()
-  const cartItem = useSelector( (state: RootState) => state.cart.items.find(obj => obj.id === id))
+  const dispatch = useAppDispatch()
+  const cartItem = useAppSelector( (state) => state.cart.items.find(obj => obj.id === id))
   const typeNames = ['тонкое', 'традиционное'];
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
