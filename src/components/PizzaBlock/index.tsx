@@ -1,19 +1,19 @@
-import React, { useState, FC } from 'react';
-import {useAppDispatch, useAppSelector} from '../../hooks'
+import { useState, FC } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 
-import { addItem } from '../../redux/slices/cartSlice'
+import { addItem } from '../../redux/slices/cartSlice';
 
 import { Pizza } from '../../models';
 import { Link } from 'react-router-dom';
 
-const PizzaBlock:FC<Pizza> = ({id, title, price, imageUrl, types, sizes }) => {
-  const dispatch = useAppDispatch()
-  const cartItem = useAppSelector( (state) => state.cart.items.find(obj => obj.id === id))
+const PizzaBlock: FC<Pizza> = ({ id, title, price, imageUrl, types, sizes }) => {
+  const dispatch = useAppDispatch();
+  const cartItem = useAppSelector((state) => state.cart.items.find((obj) => obj.id === id));
   const typeNames = ['тонкое', 'традиционное'];
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
 
-  const addedCount = cartItem ? cartItem.count! : 0
+  const addedCount = cartItem ? cartItem.count! : 0;
 
   const onClickAdd = () => {
     const item = {
@@ -22,16 +22,16 @@ const PizzaBlock:FC<Pizza> = ({id, title, price, imageUrl, types, sizes }) => {
       price,
       imageUrl,
       type: typeNames[activeType],
-      size: sizes[activeSize]
-    }
-    dispatch(addItem(item))
-  }
+      size: sizes[activeSize],
+    };
+    dispatch(addItem(item));
+  };
 
   return (
     <div className="pizza-block">
       <Link to={`/pizza/${id}`}>
-      <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
-      <h4 className="pizza-block__title">{title}</h4>
+        <img className="pizza-block__image" src={imageUrl} alt="Pizza" />
+        <h4 className="pizza-block__title">{title}</h4>
       </Link>
       <div className="pizza-block__selector">
         <ul>

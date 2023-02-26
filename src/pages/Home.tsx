@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import { FC, useEffect, useRef, useCallback } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
@@ -21,9 +21,7 @@ const Home: FC = () => {
   const isSearch = useRef(false);
   const isMouted = useRef(false);
 
-  const { categoryId, sort, currentPage, searchValue } = useAppSelector(
-    (state) => state.filter,
-  );
+  const { categoryId, sort, currentPage, searchValue } = useAppSelector((state) => state.filter);
   const { items, status } = useAppSelector((state) => state.pizza);
 
   // Если изменили параметры и был первый рендер
@@ -75,8 +73,10 @@ const Home: FC = () => {
     isSearch.current = false;
   }, [categoryId, sort?.sortProperty, searchValue, currentPage]);
 
+  const onChangeCategory = useCallback((id: number) => dispatch(setCategoryId(id)), []);
+
   const sceletons = [...new Array(6)].map((item, index) => <Sceleton key={index} />);
-  const pizzas = items.map((item) => <PizzaBlock key={item.id}  {...item}/>);
+  const pizzas = items.map((item) => <PizzaBlock key={item.id} {...item} />);
   // <Link key={item.id} to={`/pizza/${item.id}`}></Link>
   // const pizzas = items.filter(item => {
   //   if (item.title.toLowerCase().includes(searchValue.toLowerCase())) {
@@ -89,8 +89,8 @@ const Home: FC = () => {
   return (
     <div className="container">
       <div className="content__top">
-        <Categories value={categoryId} onClickCategory={(id) => dispatch(setCategoryId(id))} />
-        <Sort />
+        <Categories value={categoryId} onChangeCategory={onChangeCategory} />
+        <Sort value={sort!} />
       </div>
       <h2 className="content__title">Все пиццы</h2>
       {status === 'error' ? (

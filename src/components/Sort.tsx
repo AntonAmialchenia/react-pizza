@@ -1,5 +1,5 @@
-import React, { useState, FC, useRef, useEffect } from 'react';
-import { useAppSelector, useAppDispatch } from '../hooks';
+import { useState, FC, useRef, useEffect, memo } from 'react';
+import {  useAppDispatch } from '../hooks';
 
 import { sort, setSortType } from '../redux/slices/filterSlice';
 
@@ -8,13 +8,16 @@ export const itemsPopup = [
   { name: 'популярности ', sortProperty: '-rating' },
   { name: 'цене ', sortProperty: 'price' },
   { name: 'цене ', sortProperty: '-price' },
-  { name: 'алфавиту ', sortProperty: 'title' },
   { name: 'алфавиту ', sortProperty: '-title' },
+  { name: 'алфавиту ', sortProperty: 'title' },
 ];
 
-const Sort: FC = () => {
+type SortProps = {
+  value: sort
+}
+
+const Sort: FC<SortProps> = memo(({value}) => {
   const dispatch = useAppDispatch();
-  const sort = useAppSelector((state) => state.filter.sort);
   const sortRef = useRef(null);
 
   const [openPopup, setOpenPopup] = useState(false);
@@ -52,7 +55,7 @@ const Sort: FC = () => {
           />
         </svg>
         <b>Сортировка по:</b>
-        <span onClick={() => setOpenPopup(!openPopup)}>{sort?.name}</span>
+        <span onClick={() => setOpenPopup(!openPopup)}>{value?.name}</span>
       </div>
       {openPopup && (
         <div className="sort__popup">
@@ -61,7 +64,7 @@ const Sort: FC = () => {
               <li
                 key={i}
                 onClick={() => onClickItemPopup(obj)}
-                className={sort?.sortProperty === obj.sortProperty ? 'active' : ''}>
+                className={value?.sortProperty === obj.sortProperty ? 'active' : ''}>
                 {itemsPopup[i].name}
                 {i % 2 === 0 ? <span>&#129045;</span> : <span>&#129047;</span>}
               </li>
@@ -71,6 +74,6 @@ const Sort: FC = () => {
       )}
     </div>
   );
-};
+})
 
 export default Sort;

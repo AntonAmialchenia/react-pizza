@@ -46,6 +46,11 @@
     min-width: 32px;
     padding: 0;
     border-width: 2px;
+    @media (max-width: 470px){
+      width: 25px;
+      height: 25px;
+      min-width: 25px;
+    }
   }
 
   &--black {
