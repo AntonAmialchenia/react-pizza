@@ -24,11 +24,12 @@ const PizzaItem = () => {
     
     return (
         <div className='container'>
-            <img src={pizza?.imageUrl} alt={pizza?.title}/>
-            <h2>{pizza?.title}</h2>
-            <p>{pizza?.rating}</p>
-            <p>{pizza?.price}</p>
-
+            <div className='pizza'>
+                <img className='pizza__img' src={pizza?.imageUrl} alt={pizza?.title}/>
+                <h2 className='pizza__title'>{pizza?.title}</h2>
+                <p className='pizza__rating'>{pizza?.rating}</p>
+                <p className='pizza__price'>{pizza?.price} ₽</p>
+            </div>
         </div>
     );
 };

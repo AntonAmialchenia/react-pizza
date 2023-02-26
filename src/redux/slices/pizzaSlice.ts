@@ -4,10 +4,15 @@ import axios from 'axios';
 
 import { Pizza } from '../../models';
 
+export enum Status {
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error'
+}
+
 interface pizzaState {
   items: Pizza[];
-  loading: boolean;
-  error: string | null;
+  status: Status  
 }
 
 interface params {
@@ -30,8 +35,7 @@ export const fetchPizzas = createAsyncThunk<Pizza[], params>(
 
 const initialState: pizzaState = {
   items: [],
-  loading: false,
-  error: null,
+  status: Status.LOADING
 };
 
 export const pizzaSlice = createSlice({
@@ -45,17 +49,15 @@ export const pizzaSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPizzas.pending, (state) => {
-        state.items = [];
-        state.loading = true;
-        state.error = null;
+        state.status = Status.LOADING
+        state.items = [];        
       })
       .addCase(fetchPizzas.fulfilled, (state, action) => {
         state.items = action.payload;
-        state.loading = false;
+        state.status = Status.SUCCESS
       })
       .addCase(fetchPizzas.rejected, (state, action) => {
-        state.loading = false;
-        state.error = 'Ошибка';
+        state.status = Status.ERROR
         state.items = [];
       });
   },

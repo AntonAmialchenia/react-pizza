@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
 import qs from 'qs';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppDispatch, useAppSelector } from '../hooks';
 
@@ -24,7 +24,7 @@ const Home: FC = () => {
   const { categoryId, sort, currentPage, searchValue } = useAppSelector(
     (state) => state.filter,
   );
-  const { items, loading, error } = useAppSelector((state) => state.pizza);
+  const { items, status } = useAppSelector((state) => state.pizza);
 
   // Если изменили параметры и был первый рендер
   useEffect(() => {
@@ -93,13 +93,13 @@ const Home: FC = () => {
         <Sort />
       </div>
       <h2 className="content__title">Все пиццы</h2>
-      {error ? (
+      {status === 'error' ? (
         <div className="content__error-info">
           <h2>Произошла ошибка 😕</h2>
           <p>К сожалению, не удалось получть пиццы. Попробуйте повторить попытку позже.</p>
         </div>
       ) : (
-        <div className="content__items">{loading ? sceletons : pizzas}</div>
+        <div className="content__items">{status === 'loading' ? sceletons : pizzas}</div>
       )}
 
       <Pagination />

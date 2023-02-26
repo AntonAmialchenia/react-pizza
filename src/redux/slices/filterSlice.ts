@@ -46,9 +46,19 @@ export const filterSlice = createSlice({
       state.searchValue = action.payload;
     },
     setFilters(state, action: PayloadAction<SetFilters>) {
-      state.sort = action.payload.sort;
-      state.currentPage = action.payload.currentPage;
-      state.categoryId = action.payload.categoryId;
+      if (Object.keys(action.payload).length) {
+        state.sort = action.payload.sort;
+        state.currentPage = action.payload.currentPage;
+        state.categoryId = action.payload.categoryId;
+      } else {
+        state.categoryId= 0
+        state.currentPage= 1
+        state.searchValue= ''
+        state.sort= {
+          name: 'популярности',
+          sortProperty: 'rating'
+        }
+      }      
     },
   },
 });
