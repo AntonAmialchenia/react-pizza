@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import { useAppSelector } from '../hooks';
 import { Link, useLocation, useParams } from 'react-router-dom';
 
@@ -8,9 +8,19 @@ import LogoSvg from '../assets/img/pizza-logo.svg';
 const Header: FC = () => {
   const { pathname } = useLocation();
   const { id } = useParams();
+  const isMounted = useRef(false)
 
   const { items, totalPrice } = useAppSelector((state) => state.cart);
   const count = items.reduce((sum, obj) => obj.count! + sum, 0);
+
+  useEffect(() => {
+    if (isMounted) {
+      const json = JSON.stringify(items)
+      localStorage.setItem('cart', json)
+    }
+    
+    isMounted.current = true
+  }, [items])
 
   return (
     <header className="header">
